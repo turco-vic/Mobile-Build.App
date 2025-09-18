@@ -1,45 +1,81 @@
 import React from 'react';
 import { TouchableOpacity, Text, StyleSheet, View } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
 import * as Animatable from 'react-native-animatable';
+import { theme } from '../theme';
 
 const CharacterCard = ({ character, onToggleRecruit, onRemove }) => {
+  const isConfirmed = character.recruited;
+
   return (
     <Animatable.View
       animation="fadeInUp"
       duration={500}
-      style={[
-        styles.container,
-        character.recruited && styles.containerRecruited
-      ]}
+      style={styles.container}
     >
       <TouchableOpacity
-        style={styles.card}
         onPress={() => onToggleRecruit(character)}
         onLongPress={() => onRemove(character)}
-        activeOpacity={0.8}
+        activeOpacity={0.9}
+        style={styles.cardTouchable}
       >
-        <View style={styles.characterInfo}>
-          <MaterialIcons 
-            name={character.recruited ? "person" : "person-outline"} 
-            size={24} 
-            color={character.recruited ? "#28A9E6" : "#BCE4F4"} 
-          />
-          <Text style={[
-            styles.characterText, 
-            character.recruited && styles.characterRecruitedText
-          ]}>
-            {character.name}
-          </Text>
-        </View>
-        
-        <View style={styles.statusContainer}>
-          <MaterialIcons 
-            name={character.recruited ? "check-circle" : "radio-button-unchecked"} 
-            size={24} 
-            color={character.recruited ? "#28A9E6" : "#BCE4F4"} 
-          />
-        </View>
+        <LinearGradient
+          colors={isConfirmed 
+            ? [theme.colors.success + '20', theme.colors.success + '10']
+            : [theme.colors.surface, theme.colors.surfaceLight]
+          }
+          style={[
+            styles.card,
+            isConfirmed && styles.cardConfirmed
+          ]}
+        >
+          <View style={styles.cardContent}>
+            <View style={styles.avatarContainer}>
+              <LinearGradient
+                colors={isConfirmed 
+                  ? [theme.colors.success, theme.colors.success + 'DD']
+                  : [theme.colors.primary + '40', theme.colors.primary + '20']
+                }
+                style={styles.avatar}
+              >
+                <MaterialIcons 
+                  name={isConfirmed ? "celebration" : "person"} 
+                  size={24} 
+                  color={isConfirmed ? theme.colors.textPrimary : theme.colors.primary}
+                />
+              </LinearGradient>
+            </View>
+            
+            <View style={styles.friendInfo}>
+              <Text style={[
+                styles.friendName,
+                isConfirmed && styles.friendNameConfirmed
+              ]}>
+                {character.name}
+              </Text>
+              <Text style={[
+                styles.friendStatus,
+                isConfirmed && styles.friendStatusConfirmed
+              ]}>
+                {isConfirmed ? 'Confirmado para a festa!' : 'Aguardando confirmação'}
+              </Text>
+            </View>
+            
+            <View style={styles.statusContainer}>
+              <View style={[
+                styles.statusBadge,
+                isConfirmed ? styles.statusBadgeConfirmed : styles.statusBadgePending
+              ]}>
+                <MaterialIcons 
+                  name={isConfirmed ? "check" : "schedule"} 
+                  size={16} 
+                  color={isConfirmed ? theme.colors.success : theme.colors.warning}
+                />
+              </View>
+            </View>
+          </View>
+        </LinearGradient>
       </TouchableOpacity>
     </Animatable.View>
   );
@@ -47,41 +83,70 @@ const CharacterCard = ({ character, onToggleRecruit, onRemove }) => {
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: 12,
-    borderRadius: 12,
-    backgroundColor: "#102C58",
-    borderWidth: 1,
-    borderColor: "#003D81",
-    overflow: 'hidden',
+    marginBottom: theme.spacing.md,
   },
-  containerRecruited: {
-    backgroundColor: "#003D81",
-    borderColor: "#28A9E6",
-    borderWidth: 2,
+  cardTouchable: {
+    borderRadius: theme.borderRadius.large,
+    ...theme.shadows.small,
   },
   card: {
-    padding: 16,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    borderRadius: theme.borderRadius.large,
+    borderWidth: 1,
+    borderColor: theme.colors.primary + '20',
+    overflow: 'hidden',
   },
-  characterInfo: {
-    flex: 1,
+  cardConfirmed: {
+    borderColor: theme.colors.success + '40',
+    borderWidth: 2,
+  },
+  cardContent: {
     flexDirection: 'row',
     alignItems: 'center',
+    padding: theme.spacing.lg,
   },
-  characterText: {
-    fontSize: 16,
-    color: "#BCE4F4",
-    fontWeight: "500",
-    marginLeft: 12,
+  avatarContainer: {
+    marginRight: theme.spacing.md,
   },
-  characterRecruitedText: {
-    color: "#28A9E6",
-    fontWeight: "bold",
+  avatar: {
+    width: 48,
+    height: 48,
+    borderRadius: theme.borderRadius.medium,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  friendInfo: {
+    flex: 1,
+  },
+  friendName: {
+    ...theme.typography.h3,
+    color: theme.colors.textPrimary,
+    marginBottom: theme.spacing.xs,
+  },
+  friendNameConfirmed: {
+    color: theme.colors.success,
+  },
+  friendStatus: {
+    ...theme.typography.body2,
+    color: theme.colors.textSecondary,
+  },
+  friendStatusConfirmed: {
+    color: theme.colors.success + 'CC',
   },
   statusContainer: {
-    marginLeft: 10,
+    marginLeft: theme.spacing.sm,
+  },
+  statusBadge: {
+    width: 32,
+    height: 32,
+    borderRadius: theme.borderRadius.medium,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  statusBadgeConfirmed: {
+    backgroundColor: theme.colors.success + '20',
+  },
+  statusBadgePending: {
+    backgroundColor: theme.colors.warning + '20',
   },
 });
 

@@ -5,8 +5,8 @@ import { MaterialIcons } from '@expo/vector-icons';
 const CharacterFilter = ({ currentFilter, onFilterChange }) => {
   const filters = [
     { key: 'all', label: 'Todos', icon: 'people' },
-    { key: 'recruited', label: 'Recrutados', icon: 'check-circle' },
-    { key: 'available', label: 'Disponíveis', icon: 'radio-button-unchecked' },
+    { key: 'recruited', label: 'Confirmados', icon: 'celebration' },
+    { key: 'available', label: 'Pendentes', icon: 'schedule' },
   ];
 
   return (

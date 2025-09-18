@@ -4,20 +4,20 @@ import { MaterialIcons } from '@expo/vector-icons';
 import CharacterCard from './CharacterCard';
 
 const CharacterList = ({ characters, onToggleRecruit, onRemoveCharacter, filter }) => {
-  const getFilteredCharacters = () => {
+  const getFilteredFriends = () => {
     switch (filter) {
       case 'recruited':
-        return characters.filter(char => char.recruited);
+        return characters.filter(friend => friend.recruited);
       case 'available':
-        return characters.filter(char => !char.recruited);
+        return characters.filter(friend => !friend.recruited);
       default:
         return characters;
     }
   };
 
-  const filteredCharacters = getFilteredCharacters();
+  const filteredFriends = getFilteredFriends();
 
-  const renderCharacter = ({ item, index }) => (
+  const renderFriend = ({ item, index }) => (
     <CharacterCard
       character={item}
       onToggleRecruit={onToggleRecruit}
@@ -27,28 +27,28 @@ const CharacterList = ({ characters, onToggleRecruit, onRemoveCharacter, filter 
 
   const renderEmptyComponent = () => (
     <View style={styles.emptyContainer}>
-      <MaterialIcons name="sentiment-dissatisfied" size={48} color="#7A8B9A" />
+      <MaterialIcons name="mood-bad" size={48} color="#7A8B9A" />
       <Text style={styles.emptyText}>
-        {filter === 'recruited' ? 'Nenhum personagem recrutado ainda' :
-         filter === 'available' ? 'Nenhum personagem disponível' :
-         'Sua party está vazia'}
+        {filter === 'recruited' ? 'Nenhum amigo confirmou ainda' :
+         filter === 'available' ? 'Nenhum convite pendente' :
+         'Sua lista de convidados está vazia'}
       </Text>
       <Text style={styles.emptySubtext}>
-        {filter === 'all' ? 'Adicione alguns personagens para começar!' :
-         'Tente alterar o filtro para ver outros personagens'}
+        {filter === 'all' ? 'Convide seus amigos para a festa!' :
+         'Tente alterar o filtro para ver outros amigos'}
       </Text>
     </View>
   );
 
   return (
     <FlatList
-      data={filteredCharacters}
+      data={filteredFriends}
       keyExtractor={(item) => String(item.id)}
-      renderItem={renderCharacter}
+      renderItem={renderFriend}
       style={styles.list}
       showsVerticalScrollIndicator={false}
       ListEmptyComponent={renderEmptyComponent}
-      contentContainerStyle={filteredCharacters.length === 0 && styles.emptyContentContainer}
+      contentContainerStyle={filteredFriends.length === 0 && styles.emptyContentContainer}
     />
   );
 };

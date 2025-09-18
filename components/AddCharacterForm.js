@@ -1,87 +1,122 @@
 import React, { useState } from 'react';
 import { View, TextInput, TouchableOpacity, StyleSheet, Modal, Text } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
 import * as Animatable from 'react-native-animatable';
+import { theme } from '../theme';
 
 const AddCharacterForm = ({ onAddCharacter, showToast }) => {
-  const [newCharacter, setNewCharacter] = useState("");
+  const [newFriend, setNewFriend] = useState("");
   const [showModal, setShowModal] = useState(false);
 
-  const handleAddCharacter = () => {
-    if (newCharacter.trim() === "") {
-      showToast("Por favor, digite um nome para o personagem!", "error");
+  const handleAddFriend = () => {
+    if (newFriend.trim() === "") {
+      showToast("Por favor, digite o nome do seu amigo!", "error");
       return;
     }
-
     setShowModal(true);
   };
 
-  const confirmAddCharacter = () => {
-    onAddCharacter(newCharacter.trim());
-    setNewCharacter("");
+  const confirmAddFriend = () => {
+    onAddCharacter(newFriend.trim());
+    setNewFriend("");
     setShowModal(false);
-    showToast(`${newCharacter} foi adicionado à party!`, "success");
+    showToast(`${newFriend} foi convidado para a festa!`, "success");
   };
 
-  const cancelAddCharacter = () => {
+  const cancelAddFriend = () => {
     setShowModal(false);
   };
 
   return (
     <View style={styles.container}>
-      <View style={styles.inputRow}>
-        <View style={styles.inputContainer}>
-          <MaterialIcons name="person-add" size={20} color="#2B9AEE" style={styles.inputIcon} />
-          <TextInput
-            style={styles.input}
-            placeholder="Nome do novo personagem..."
-            placeholderTextColor="#7A8B9A"
-            value={newCharacter}
-            onChangeText={setNewCharacter}
-            onSubmitEditing={handleAddCharacter}
-          />
-        </View>
-        
-        <TouchableOpacity 
-          style={styles.button} 
-          onPress={handleAddCharacter}
-          activeOpacity={0.8}
+      <View style={styles.inputCard}>
+        <LinearGradient
+          colors={[theme.colors.surface, theme.colors.surfaceLight]}
+          style={styles.inputGradient}
         >
-          <MaterialIcons name="add" size={24} color="#2B9AEE" />
-        </TouchableOpacity>
+          <View style={styles.inputRow}>
+            <View style={styles.inputContainer}>
+              <View style={styles.inputIconContainer}>
+                <MaterialIcons name="person-add" size={20} color={theme.colors.primary} />
+              </View>
+              <TextInput
+                style={styles.input}
+                placeholder="Digite o nome do seu amigo..."
+                placeholderTextColor={theme.colors.textMuted}
+                value={newFriend}
+                onChangeText={setNewFriend}
+                onSubmitEditing={handleAddFriend}
+              />
+            </View>
+            
+            <TouchableOpacity 
+              style={styles.addButton} 
+              onPress={handleAddFriend}
+              activeOpacity={0.8}
+            >
+              <LinearGradient
+                colors={[theme.colors.primary, theme.colors.primaryDark]}
+                style={styles.buttonGradient}
+              >
+                <MaterialIcons name="add" size={24} color={theme.colors.textPrimary} />
+              </LinearGradient>
+            </TouchableOpacity>
+          </View>
+        </LinearGradient>
       </View>
 
-      {/* Modal de Confirmação */}
       <Modal
-        animationType="slide"
+        animationType="fade"
         transparent={true}
         visible={showModal}
-        onRequestClose={cancelAddCharacter}
+        onRequestClose={cancelAddFriend}
       >
         <View style={styles.modalOverlay}>
-          <Animatable.View animation="slideInUp" style={styles.modalContent}>
-            <Text style={styles.modalTitle}>Confirmar Adição</Text>
-            <Text style={styles.modalMessage}>
-              Deseja adicionar "{newCharacter}" à sua party?
-            </Text>
-            
-            <View style={styles.modalButtons}>
-              <TouchableOpacity 
-                style={[styles.modalButton, styles.cancelButton]} 
-                onPress={cancelAddCharacter}
-              >
-                <MaterialIcons name="close" size={20} color="#FF6B6B" />
-                <Text style={styles.cancelButtonText}>Cancelar</Text>
-              </TouchableOpacity>
+          <Animatable.View animation="zoomIn" duration={300} style={styles.modalContainer}>
+            <LinearGradient
+              colors={[theme.colors.surface, theme.colors.surfaceLight]}
+              style={styles.modalContent}
+            >
+              <View style={styles.modalHeader}>
+                <View style={styles.modalIconContainer}>
+                  <MaterialIcons name="celebration" size={32} color={theme.colors.secondary} />
+                </View>
+                <Text style={styles.modalTitle}>Confirmar Convite</Text>
+              </View>
               
-              <TouchableOpacity 
-                style={[styles.modalButton, styles.confirmButton]} 
-                onPress={confirmAddCharacter}
-              >
-                <MaterialIcons name="check" size={20} color="#4ECDC4" />
-                <Text style={styles.confirmButtonText}>Confirmar</Text>
-              </TouchableOpacity>
-            </View>
+              <Text style={styles.modalMessage}>
+                Deseja convidar <Text style={styles.friendName}>"{newFriend}"</Text> para sua festa?
+              </Text>
+              
+              <View style={styles.modalButtons}>
+                <TouchableOpacity 
+                  style={styles.modalButton} 
+                  onPress={cancelAddFriend}
+                >
+                  <LinearGradient
+                    colors={[theme.colors.error + '20', theme.colors.error + '10']}
+                    style={[styles.buttonGradient, styles.cancelButtonGradient]}
+                  >
+                    <MaterialIcons name="close" size={18} color={theme.colors.error} />
+                    <Text style={styles.cancelButtonText}>Cancelar</Text>
+                  </LinearGradient>
+                </TouchableOpacity>
+                
+                <TouchableOpacity 
+                  style={styles.modalButton} 
+                  onPress={confirmAddFriend}
+                >
+                  <LinearGradient
+                    colors={[theme.colors.success, theme.colors.success + 'DD']}
+                    style={styles.buttonGradient}
+                  >
+                    <MaterialIcons name="send" size={18} color={theme.colors.textPrimary} />
+                    <Text style={styles.confirmButtonText}>Convidar</Text>
+                  </LinearGradient>
+                </TouchableOpacity>
+              </View>
+            </LinearGradient>
           </Animatable.View>
         </View>
       </Modal>
@@ -91,103 +126,126 @@ const AddCharacterForm = ({ onAddCharacter, showToast }) => {
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: 20,
+    marginBottom: theme.spacing.xl,
+  },
+  inputCard: {
+    borderRadius: theme.borderRadius.large,
+    ...theme.shadows.medium,
+  },
+  inputGradient: {
+    borderRadius: theme.borderRadius.large,
+    padding: theme.spacing.md,
   },
   inputRow: {
     flexDirection: 'row',
-    gap: 10,
+    gap: theme.spacing.md,
   },
   inputContainer: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    borderWidth: 2,
-    borderColor: '#2B9AEE',
-    borderRadius: 12,
-    backgroundColor: '#162E3B',
-    paddingHorizontal: 12,
+    backgroundColor: theme.colors.background + '80',
+    borderRadius: theme.borderRadius.medium,
+    paddingHorizontal: theme.spacing.md,
+    borderWidth: 1,
+    borderColor: theme.colors.primary + '30',
   },
-  inputIcon: {
-    marginRight: 8,
+  inputIconContainer: {
+    width: 32,
+    height: 32,
+    backgroundColor: theme.colors.primary + '20',
+    borderRadius: theme.borderRadius.small,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: theme.spacing.sm,
   },
   input: {
     flex: 1,
-    padding: 12,
-    color: '#FFFFFF',
-    fontSize: 16,
+    ...theme.typography.body1,
+    color: theme.colors.textPrimary,
+    paddingVertical: theme.spacing.md,
   },
-  button: {
-    backgroundColor: '#2F5FEC',
-    padding: 12,
-    borderRadius: 12,
+  addButton: {
+    borderRadius: theme.borderRadius.medium,
+    ...theme.shadows.small,
+  },
+  buttonGradient: {
+    paddingHorizontal: theme.spacing.md,
+    paddingVertical: theme.spacing.md,
+    borderRadius: theme.borderRadius.medium,
     justifyContent: 'center',
     alignItems: 'center',
-    width: 50,
-    borderWidth: 2,
-    borderColor: '#2B9AEE',
+    flexDirection: 'row',
+    gap: theme.spacing.xs,
   },
-  // Modal styles
   modalOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    backgroundColor: theme.colors.overlay,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 20,
+    padding: theme.spacing.lg,
+  },
+  modalContainer: {
+    width: '100%',
+    maxWidth: 320,
   },
   modalContent: {
-    backgroundColor: '#162E3B',
-    borderRadius: 16,
-    padding: 24,
-    width: '100%',
-    maxWidth: 300,
+    borderRadius: theme.borderRadius.xlarge,
+    padding: theme.spacing.xl,
     borderWidth: 1,
-    borderColor: '#2B9AEE',
+    borderColor: theme.colors.primary + '20',
+    ...theme.shadows.large,
+  },
+  modalHeader: {
+    alignItems: 'center',
+    marginBottom: theme.spacing.lg,
+  },
+  modalIconContainer: {
+    width: 64,
+    height: 64,
+    backgroundColor: theme.colors.secondary + '20',
+    borderRadius: theme.borderRadius.xlarge,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: theme.spacing.md,
   },
   modalTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#2B9AEE',
+    ...theme.typography.h2,
+    color: theme.colors.textPrimary,
     textAlign: 'center',
-    marginBottom: 12,
   },
   modalMessage: {
-    fontSize: 16,
-    color: '#BCE4F4',
+    ...theme.typography.body1,
+    color: theme.colors.textSecondary,
     textAlign: 'center',
-    marginBottom: 20,
+    marginBottom: theme.spacing.xl,
+    lineHeight: 24,
+  },
+  friendName: {
+    color: theme.colors.secondary,
+    fontWeight: '600',
   },
   modalButtons: {
     flexDirection: 'row',
-    gap: 12,
+    gap: theme.spacing.md,
   },
   modalButton: {
     flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 12,
-    borderRadius: 8,
-    gap: 6,
+    borderRadius: theme.borderRadius.medium,
   },
-  cancelButton: {
-    backgroundColor: 'rgba(255, 107, 107, 0.2)',
+  cancelButtonGradient: {
     borderWidth: 1,
-    borderColor: '#FF6B6B',
-  },
-  confirmButton: {
-    backgroundColor: 'rgba(78, 205, 196, 0.2)',
-    borderWidth: 1,
-    borderColor: '#4ECDC4',
+    borderColor: theme.colors.error + '40',
   },
   cancelButtonText: {
-    color: '#FF6B6B',
-    fontSize: 14,
-    fontWeight: 'bold',
+    color: theme.colors.error,
+    ...theme.typography.body2,
+    fontWeight: '600',
   },
   confirmButtonText: {
-    color: '#4ECDC4',
-    fontSize: 14,
-    fontWeight: 'bold',
+    color: theme.colors.textPrimary,
+    ...theme.typography.body2,
+    fontWeight: '600',
   },
 });
 

@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "App RPG",
+    "name": "Minha Festa",
     "slug": "app-teste",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -10,15 +10,17 @@
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#0A0E1A"
+      "backgroundColor": "#0F0F23"
     },
     "ios": {
+      "icon": "./assets/icon.png",
       "supportsTablet": true
     },
     "android": {
+      "icon": "./assets/icon.png",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#0A0E1A"
+        "backgroundColor": "#0F0F23"
       },
       "edgeToEdgeEnabled": true,
       "package": "com.turco.appteste"
