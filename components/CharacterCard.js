@@ -22,7 +22,7 @@ const CharacterCard = ({ character, onToggleRecruit, onRemove }) => {
       >
         <LinearGradient
           colors={isConfirmed 
-            ? [theme.colors.success + '20', theme.colors.success + '10']
+            ? [theme.colors.status.success + '20', theme.colors.status.success + '10']
             : [theme.colors.surface, theme.colors.surfaceLight]
           }
           style={[
@@ -34,7 +34,7 @@ const CharacterCard = ({ character, onToggleRecruit, onRemove }) => {
             <View style={styles.avatarContainer}>
               <LinearGradient
                 colors={isConfirmed 
-                  ? [theme.colors.success, theme.colors.success + 'DD']
+                  ? [theme.colors.status.success, theme.colors.status.success + 'DD']
                   : [theme.colors.primary + '40', theme.colors.primary + '20']
                 }
                 style={styles.avatar}
@@ -42,7 +42,7 @@ const CharacterCard = ({ character, onToggleRecruit, onRemove }) => {
                 <MaterialIcons 
                   name={isConfirmed ? "celebration" : "person"} 
                   size={24} 
-                  color={isConfirmed ? theme.colors.textPrimary : theme.colors.primary}
+                  color={isConfirmed ? theme.colors.text.primary : theme.colors.primary}
                 />
               </LinearGradient>
             </View>
@@ -70,7 +70,7 @@ const CharacterCard = ({ character, onToggleRecruit, onRemove }) => {
                 <MaterialIcons 
                   name={isConfirmed ? "check" : "schedule"} 
                   size={16} 
-                  color={isConfirmed ? theme.colors.success : theme.colors.warning}
+                  color={isConfirmed ? theme.colors.status.success : theme.colors.status.warning}
                 />
               </View>
             </View>
@@ -86,17 +86,16 @@ const styles = StyleSheet.create({
     marginBottom: theme.spacing.md,
   },
   cardTouchable: {
-    borderRadius: theme.borderRadius.large,
-    ...theme.shadows.small,
+    borderRadius: theme.borderRadius.lg,
+    ...theme.shadows.sm,
   },
   card: {
-    borderRadius: theme.borderRadius.large,
-    borderWidth: 1,
+    ...theme.components.card.default,
     borderColor: theme.colors.primary + '20',
     overflow: 'hidden',
   },
   cardConfirmed: {
-    borderColor: theme.colors.success + '40',
+    borderColor: theme.colors.status.success + '40',
     borderWidth: 2,
   },
   cardContent: {
@@ -110,7 +109,7 @@ const styles = StyleSheet.create({
   avatar: {
     width: 48,
     height: 48,
-    borderRadius: theme.borderRadius.medium,
+    borderRadius: theme.borderRadius.lg,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -118,19 +117,17 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   friendName: {
-    ...theme.typography.h3,
-    color: theme.colors.textPrimary,
+    ...theme.components.text.h4,
     marginBottom: theme.spacing.xs,
   },
   friendNameConfirmed: {
-    color: theme.colors.success,
+    color: theme.colors.status.success,
   },
   friendStatus: {
-    ...theme.typography.body2,
-    color: theme.colors.textSecondary,
+    ...theme.components.text.small,
   },
   friendStatusConfirmed: {
-    color: theme.colors.success + 'CC',
+    color: theme.colors.status.success + 'CC',
   },
   statusContainer: {
     marginLeft: theme.spacing.sm,
@@ -138,15 +135,15 @@ const styles = StyleSheet.create({
   statusBadge: {
     width: 32,
     height: 32,
-    borderRadius: theme.borderRadius.medium,
+    borderRadius: theme.borderRadius.lg,
     justifyContent: 'center',
     alignItems: 'center',
   },
   statusBadgeConfirmed: {
-    backgroundColor: theme.colors.success + '20',
+    backgroundColor: theme.colors.status.success + '20',
   },
   statusBadgePending: {
-    backgroundColor: theme.colors.warning + '20',
+    backgroundColor: theme.colors.status.warning + '20',
   },
 });
 

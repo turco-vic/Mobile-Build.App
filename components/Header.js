@@ -8,7 +8,7 @@ const Header = () => {
   return (
     <View style={styles.container}>
       <LinearGradient
-        colors={[theme.colors.primary, theme.colors.secondary]}
+        colors={theme.colors.gradient.primary}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
         style={styles.gradientBackground}
@@ -16,19 +16,19 @@ const Header = () => {
         <View style={styles.content}>
           <View style={styles.titleContainer}>
             <View style={styles.iconContainer}>
-              <MaterialIcons name="celebration" size={28} color={theme.colors.textPrimary} />
+              <MaterialIcons name="celebration" size={28} color={theme.colors.text.primary} />
             </View>
             <Text style={styles.title}>Minha Festa</Text>
           </View>
           
           <View style={styles.subtitleContainer}>
             <View style={styles.legendItem}>
-              <MaterialIcons name="check-circle" size={14} color={theme.colors.success} />
+              <MaterialIcons name="check-circle" size={14} color={theme.colors.status.success} />
               <Text style={styles.legendText}>Confirmado</Text>
             </View>
             <View style={styles.separator} />
             <View style={styles.legendItem}>
-              <MaterialIcons name="schedule" size={14} color={theme.colors.warning} />
+              <MaterialIcons name="schedule" size={14} color={theme.colors.status.warning} />
               <Text style={styles.legendText}>Pendente</Text>
             </View>
           </View>
@@ -48,9 +48,9 @@ const styles = StyleSheet.create({
     paddingTop: 50,
   },
   gradientBackground: {
-    borderBottomLeftRadius: theme.borderRadius.large,
-    borderBottomRightRadius: theme.borderRadius.large,
-    ...theme.shadows.medium,
+    borderBottomLeftRadius: theme.borderRadius.xl,
+    borderBottomRightRadius: theme.borderRadius.xl,
+    ...theme.shadows.lg,
   },
   content: {
     paddingHorizontal: theme.spacing.lg,
@@ -65,24 +65,22 @@ const styles = StyleSheet.create({
   iconContainer: {
     width: 48,
     height: 48,
-    backgroundColor: theme.colors.glassmorphism,
-    borderRadius: theme.borderRadius.medium,
+    backgroundColor: theme.colors.overlay,
+    borderRadius: theme.borderRadius.lg,
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: theme.spacing.md,
   },
   title: {
-    ...theme.typography.h1,
-    color: theme.colors.textPrimary,
-    fontWeight: '700',
+    ...theme.components.text.h1,
   },
   subtitleContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: theme.colors.glassmorphism,
+    backgroundColor: theme.colors.overlay,
     paddingHorizontal: theme.spacing.md,
     paddingVertical: theme.spacing.sm,
-    borderRadius: theme.borderRadius.large,
+    borderRadius: theme.borderRadius.full,
     marginBottom: theme.spacing.sm,
   },
   legendItem: {
@@ -91,19 +89,17 @@ const styles = StyleSheet.create({
     gap: theme.spacing.xs,
   },
   legendText: {
-    ...theme.typography.body2,
-    color: theme.colors.textPrimary,
-    fontWeight: '500',
+    ...theme.components.text.small,
+    fontWeight: theme.typography.fontWeight.medium,
   },
   separator: {
     width: 1,
     height: 12,
-    backgroundColor: theme.colors.textMuted,
+    backgroundColor: theme.colors.text.disabled,
     marginHorizontal: theme.spacing.sm,
   },
   instruction: {
-    ...theme.typography.caption,
-    color: theme.colors.textSecondary,
+    ...theme.components.text.caption,
     textAlign: 'center',
     opacity: 0.8,
   },

@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
+import { theme } from '../theme';
 
 const CharacterFilter = ({ currentFilter, onFilterChange }) => {
   const filters = [
@@ -25,7 +26,7 @@ const CharacterFilter = ({ currentFilter, onFilterChange }) => {
             <MaterialIcons 
               name={filter.icon} 
               size={18} 
-              color={currentFilter === filter.key ? "#0A0E1A" : "#2B9AEE"} 
+              color={currentFilter === filter.key ? theme.colors.text.primary : theme.colors.primary} 
             />
             <Text style={[
               styles.filterButtonText,
@@ -42,40 +43,33 @@ const CharacterFilter = ({ currentFilter, onFilterChange }) => {
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: 16,
+    marginBottom: theme.spacing.md,
   },
   filterTitle: {
-    color: '#BCE4F4',
-    fontSize: 14,
-    fontWeight: '600',
-    marginBottom: 8,
+    ...theme.components.text.small,
+    fontWeight: theme.typography.fontWeight.semibold,
+    marginBottom: theme.spacing.sm,
   },
   filterButtons: {
     flexDirection: 'row',
-    gap: 8,
+    gap: theme.spacing.sm,
   },
   filterButton: {
+    ...theme.components.filter.inactive,
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    borderRadius: 20,
-    borderWidth: 1,
-    borderColor: '#2B9AEE',
-    backgroundColor: 'transparent',
-    gap: 6,
+    gap: theme.spacing.xs,
   },
   filterButtonActive: {
-    backgroundColor: '#2B9AEE',
-    borderColor: '#2B9AEE',
+    ...theme.components.filter.active,
   },
   filterButtonText: {
-    color: '#2B9AEE',
-    fontSize: 12,
-    fontWeight: '600',
+    ...theme.components.text.small,
+    color: theme.colors.primary,
+    fontWeight: theme.typography.fontWeight.semibold,
   },
   filterButtonTextActive: {
-    color: '#0A0E1A',
+    color: theme.colors.text.primary,
   },
 });
 

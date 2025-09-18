@@ -43,7 +43,7 @@ const AddCharacterForm = ({ onAddCharacter, showToast }) => {
               <TextInput
                 style={styles.input}
                 placeholder="Digite o nome do seu amigo..."
-                placeholderTextColor={theme.colors.textMuted}
+                placeholderTextColor={theme.colors.text.disabled}
                 value={newFriend}
                 onChangeText={setNewFriend}
                 onSubmitEditing={handleAddFriend}
@@ -59,7 +59,7 @@ const AddCharacterForm = ({ onAddCharacter, showToast }) => {
                 colors={[theme.colors.primary, theme.colors.primaryDark]}
                 style={styles.buttonGradient}
               >
-                <MaterialIcons name="add" size={24} color={theme.colors.textPrimary} />
+                <MaterialIcons name="add" size={24} color={theme.colors.text.primary} />
               </LinearGradient>
             </TouchableOpacity>
           </View>
@@ -95,10 +95,10 @@ const AddCharacterForm = ({ onAddCharacter, showToast }) => {
                   onPress={cancelAddFriend}
                 >
                   <LinearGradient
-                    colors={[theme.colors.error + '20', theme.colors.error + '10']}
+                    colors={[theme.colors.status.error + '20', theme.colors.status.error + '10']}
                     style={[styles.buttonGradient, styles.cancelButtonGradient]}
                   >
-                    <MaterialIcons name="close" size={18} color={theme.colors.error} />
+                    <MaterialIcons name="close" size={18} color={theme.colors.status.error} />
                     <Text style={styles.cancelButtonText}>Cancelar</Text>
                   </LinearGradient>
                 </TouchableOpacity>
@@ -108,10 +108,10 @@ const AddCharacterForm = ({ onAddCharacter, showToast }) => {
                   onPress={confirmAddFriend}
                 >
                   <LinearGradient
-                    colors={[theme.colors.success, theme.colors.success + 'DD']}
+                    colors={[theme.colors.status.success, theme.colors.status.success + 'DD']}
                     style={styles.buttonGradient}
                   >
-                    <MaterialIcons name="send" size={18} color={theme.colors.textPrimary} />
+                    <MaterialIcons name="send" size={18} color={theme.colors.text.primary} />
                     <Text style={styles.confirmButtonText}>Convidar</Text>
                   </LinearGradient>
                 </TouchableOpacity>
@@ -129,11 +129,11 @@ const styles = StyleSheet.create({
     marginBottom: theme.spacing.xl,
   },
   inputCard: {
-    borderRadius: theme.borderRadius.large,
-    ...theme.shadows.medium,
+    borderRadius: theme.borderRadius.lg,
+    ...theme.shadows.md,
   },
   inputGradient: {
-    borderRadius: theme.borderRadius.large,
+    borderRadius: theme.borderRadius.lg,
     padding: theme.spacing.md,
   },
   inputRow: {
@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: theme.colors.background + '80',
-    borderRadius: theme.borderRadius.medium,
+    borderRadius: theme.borderRadius.md,
     paddingHorizontal: theme.spacing.md,
     borderWidth: 1,
     borderColor: theme.colors.primary + '30',
@@ -154,25 +154,27 @@ const styles = StyleSheet.create({
     width: 32,
     height: 32,
     backgroundColor: theme.colors.primary + '20',
-    borderRadius: theme.borderRadius.small,
+    borderRadius: theme.borderRadius.sm,
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: theme.spacing.sm,
   },
   input: {
+    ...theme.components.input.default,
     flex: 1,
-    ...theme.typography.body1,
-    color: theme.colors.textPrimary,
     paddingVertical: theme.spacing.md,
+    paddingHorizontal: 0,
+    backgroundColor: 'transparent',
+    borderWidth: 0,
   },
   addButton: {
-    borderRadius: theme.borderRadius.medium,
-    ...theme.shadows.small,
+    borderRadius: theme.borderRadius.md,
+    ...theme.shadows.sm,
   },
   buttonGradient: {
     paddingHorizontal: theme.spacing.md,
     paddingVertical: theme.spacing.md,
-    borderRadius: theme.borderRadius.medium,
+    borderRadius: theme.borderRadius.md,
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
@@ -190,11 +192,11 @@ const styles = StyleSheet.create({
     maxWidth: 320,
   },
   modalContent: {
-    borderRadius: theme.borderRadius.xlarge,
+    borderRadius: theme.borderRadius['2xl'],
     padding: theme.spacing.xl,
     borderWidth: 1,
     borderColor: theme.colors.primary + '20',
-    ...theme.shadows.large,
+    ...theme.shadows.xl,
   },
   modalHeader: {
     alignItems: 'center',
@@ -204,26 +206,25 @@ const styles = StyleSheet.create({
     width: 64,
     height: 64,
     backgroundColor: theme.colors.secondary + '20',
-    borderRadius: theme.borderRadius.xlarge,
+    borderRadius: theme.borderRadius.full,
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: theme.spacing.md,
   },
   modalTitle: {
-    ...theme.typography.h2,
-    color: theme.colors.textPrimary,
+    ...theme.components.text.h2,
     textAlign: 'center',
   },
   modalMessage: {
-    ...theme.typography.body1,
-    color: theme.colors.textSecondary,
+    ...theme.components.text.body,
+    color: theme.colors.text.secondary,
     textAlign: 'center',
     marginBottom: theme.spacing.xl,
-    lineHeight: 24,
+    lineHeight: theme.typography.lineHeight.relaxed * theme.typography.fontSize.base,
   },
   friendName: {
     color: theme.colors.secondary,
-    fontWeight: '600',
+    fontWeight: theme.typography.fontWeight.semibold,
   },
   modalButtons: {
     flexDirection: 'row',
@@ -231,21 +232,20 @@ const styles = StyleSheet.create({
   },
   modalButton: {
     flex: 1,
-    borderRadius: theme.borderRadius.medium,
+    borderRadius: theme.borderRadius.md,
   },
   cancelButtonGradient: {
     borderWidth: 1,
-    borderColor: theme.colors.error + '40',
+    borderColor: theme.colors.status.error + '40',
   },
   cancelButtonText: {
-    color: theme.colors.error,
-    ...theme.typography.body2,
-    fontWeight: '600',
+    color: theme.colors.status.error,
+    ...theme.components.text.small,
+    fontWeight: theme.typography.fontWeight.semibold,
   },
   confirmButtonText: {
-    color: theme.colors.textPrimary,
-    ...theme.typography.body2,
-    fontWeight: '600',
+    ...theme.components.text.small,
+    fontWeight: theme.typography.fontWeight.semibold,
   },
 });
 
